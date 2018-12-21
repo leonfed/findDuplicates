@@ -4,18 +4,23 @@
 #include <QMainWindow>
 #include <duplicates.h>
 #include <QListWidgetItem>
+#include <tuple>
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+static std::tuple<bool, size_t, size_t> indexSelectedItem = {false, 0, 0};
+
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void fillListFiles();
+    void fillListDuplicates(size_t index);
 
 private slots:
 
@@ -24,6 +29,10 @@ private slots:
     void on_actionRun_triggered();
 
     void on_listFiles_itemPressed(QListWidgetItem *item);
+
+    void on_listDuplicates_itemPressed(QListWidgetItem *item);
+
+    void on_actionDelete_file_triggered();
 
 private:
     Ui::MainWindow *ui;

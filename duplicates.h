@@ -6,26 +6,23 @@
 #include <map>
 #include <experimental/filesystem>
 
-class duplicates
-{
+class duplicates {
 public:
-  static duplicates& instance()
-  {
-    static duplicates singleton;
-    return singleton;
-  }
+    static duplicates& instance() {
+        static duplicates singleton;
+        return singleton;
+    }
 
-  void setDirectory(std::string &directory);
+    void setDirectory(std::string &directory);
 
-  std::vector<std::vector<std::string>> sameFiles;
-  std::map<std::string, size_t> indexInSameFiles;
+    std::vector<std::vector<std::string>> sameFiles;
+    std::map<std::string, std::pair<size_t, size_t>> indexInSameFiles;
 
-// Other non-static member functions
 private:
-  duplicates() {}                                  // Private constructor
-  ~duplicates() {}
-  duplicates(const duplicates&);                 // Prevent copy-construction
-  duplicates& operator=(const duplicates&);      // Prevent assignment
+    duplicates() {}                                  // Private constructor
+    ~duplicates() {}
+    duplicates(const duplicates&);                 // Prevent copy-construction
+    duplicates& operator=(const duplicates&);      // Prevent assignment
 };
 
 #endif // DUPLICATES_H

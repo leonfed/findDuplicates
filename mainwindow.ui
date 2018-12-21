@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>findDuplicates</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -53,6 +53,7 @@
    </attribute>
    <addaction name="actionBrowse"/>
    <addaction name="actionRun"/>
+   <addaction name="actionDelete_file"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionBrowse">
@@ -63,6 +64,11 @@
   <action name="actionRun">
    <property name="text">
     <string>Run</string>
+   </property>
+  </action>
+  <action name="actionDelete_file">
+   <property name="text">
+    <string>Delete file</string>
    </property>
   </action>
  </widget>
