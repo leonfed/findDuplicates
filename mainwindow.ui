@@ -54,6 +54,7 @@
    <addaction name="actionBrowse"/>
    <addaction name="actionRun"/>
    <addaction name="actionDelete_file"/>
+   <addaction name="actionOpen_directory"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionBrowse">
@@ -69,6 +70,11 @@
   <action name="actionDelete_file">
    <property name="text">
     <string>Delete file</string>
+   </property>
+  </action>
+  <action name="actionOpen_directory">
+   <property name="text">
+    <string>Open directory</string>
    </property>
   </action>
  </widget>

@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <experimental/filesystem>
+#include <QDesktopServices>
 
 namespace fs = std::experimental::filesystem;
 
@@ -86,10 +87,21 @@ void MainWindow::on_actionDelete_file_triggered() {
     std::string file = dup.sameFiles[i][j];
     fs::remove(file);
     dup.sameFiles[i].erase(dup.sameFiles[i].begin() + j);
-
     if (dup.sameFiles[i].size() == 1) {
         dup.sameFiles[i].erase(dup.sameFiles[i].begin());
     }
     fillListFiles();
     fillListDuplicates(i);
+}
+
+void MainWindow::on_actionOpen_directory_triggered() {
+    if (!std::get<0>(indexSelectedItem)) {
+        return;
+    }
+    duplicates &dup = duplicates::instance();
+    size_t i = std::get<1>(indexSelectedItem), j = std::get<2>(indexSelectedItem);
+    std::string file = dup.sameFiles[i][j];
+    fs::path pathFile(file);
+    fs::path fileDirectory = pathFile.parent_path();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(fileDirectory)));
 }

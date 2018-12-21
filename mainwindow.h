@@ -34,6 +34,8 @@ private slots:
 
     void on_actionDelete_file_triggered();
 
+    void on_actionOpen_directory_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
