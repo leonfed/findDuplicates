@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>606</width>
-    <height>474</height>
+    <height>468</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +19,12 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QLabel" name="directory">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+          <underline>false</underline>
+         </font>
+        </property>
         <property name="text">
          <string>Directory isn't selected</string>
         </property>
@@ -31,6 +37,13 @@
        <widget class="QListWidget" name="listDuplicates"/>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="error">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -56,7 +69,6 @@
    <addaction name="actionDelete_file"/>
    <addaction name="actionOpen_directory"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionBrowse">
    <property name="text">
     <string>Browse</string>

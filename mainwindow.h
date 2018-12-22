@@ -10,7 +10,8 @@ namespace Ui {
     class MainWindow;
 }
 
-static std::tuple<bool, size_t, size_t> indexSelectedItem = {false, 0, 0};
+static std::tuple<bool, size_t, size_t> indexUp = {false, 0, 0};
+static std::tuple<bool, size_t, size_t> indexDown = {false, 0, 0};
 
 class MainWindow : public QMainWindow {
     Q_OBJECT

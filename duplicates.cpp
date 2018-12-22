@@ -14,43 +14,51 @@ void getListFiles(std::vector<fs::path> &paths, const std::string &directory) {
     }
 }
 
-void sortBySize(const std::vector<fs::path> &paths, std::map<long long, std::vector<fs::path>> &sameSizeFiles) {
+void sortBySize(const std::vector<fs::path> &paths, std::map<unsigned long long, std::vector<fs::path>> &sameSizeFiles) {
     for (const auto &p : paths) {
-        auto fileSize = fs::file_size(p);
-        sameSizeFiles[fileSize].push_back(p);
+        try {
+            auto fileSize = fs::file_size(p);
+            sameSizeFiles[fileSize].push_back(p);
+        } catch (...) {
+            //nothing
+        }
     }
 }
 
 void sortByBeginEndBytes(const std::vector<fs::path> &paths, std::map<std::tuple<unsigned int, unsigned int, unsigned int>, std::vector<fs::path>> &sameBeginEndBytesFiles, long long size) {
     std::ifstream file;
     for (const auto &p : paths) {
-        file.open(p);
-        int n = 4;
-        if (size < n) {
-            n = (int) size;
+        try {
+            file.open(p);
+            int n = 4;
+            if (size < n) {
+                n = (int) size;
+            }
+            std::vector<char> bufBegin(n, 0), bufMid(n, 0), bufEnd(n, 0);
+            file.read(bufBegin.data(), n);
+            file.seekg(size - n, std::ios_base::beg);
+            file.read(bufEnd.data(), n);
+            long long mid = size / 2;
+            if (mid + n > size) {
+                n = (int)(size - mid);
+            }
+            file.seekg(mid, std::ios_base::beg);
+            file.read(bufMid.data(), n);
+            unsigned int beginOfFile = 0, midOfFile = 0, endOfFile = 0;
+            for (int i = 0; i < n; i++) {
+                beginOfFile = (beginOfFile << 8) + bufBegin[i];
+            }
+            for (int i = 0; i < n; i++) {
+                midOfFile = (midOfFile << 8) + bufMid[i];
+            }
+            for (int i = 0; i < n; i++) {
+                endOfFile = (endOfFile << 8) + bufEnd[i];
+            }
+            sameBeginEndBytesFiles[{beginOfFile, midOfFile, endOfFile}].push_back(p);
+            file.close();
+        } catch(...) {
+            //nothing
         }
-        std::vector<char> bufBegin(n, 0), bufMid(n, 0), bufEnd(n, 0);
-        file.read(bufBegin.data(), n);
-        file.seekg(size - n, std::ios_base::beg);
-        file.read(bufEnd.data(), n);
-        long long mid = size / 2;
-        if (mid + n > size) {
-            n = (int)(size - mid);
-        }
-        file.seekg(mid, std::ios_base::beg);
-        file.read(bufMid.data(), n);
-        unsigned int beginOfFile = 0, midOfFile = 0, endOfFile = 0;
-        for (int i = 0; i < n; i++) {
-            beginOfFile = (beginOfFile << 8) + bufBegin[i];
-        }
-        for (int i = 0; i < n; i++) {
-            midOfFile = (midOfFile << 8) + bufMid[i];
-        }
-        for (int i = 0; i < n; i++) {
-            endOfFile = (endOfFile << 8) + bufEnd[i];
-        }
-        sameBeginEndBytesFiles[{beginOfFile, midOfFile, endOfFile}].push_back(p);
-        file.close();
     }
 }
 
@@ -63,24 +71,28 @@ void sortBySHA256(const std::vector<fs::path> &paths, std::map<std::string, std:
     }
     std::ifstream file;
     for (const auto &p : paths) {
-        file.open(p);
-        char buf[sizeBuf];
-        SHA256_CTX ctx;
-        unsigned char hash[32];
-        std::string hashStr;
-        SHA256Init(&ctx);
-        do {
-            file.read(buf, sizeof(buf));
-            SHA256Update(&ctx, (unsigned char*) buf, sizeBuf);
-        } while (file);
-        SHA256Final(&ctx, hash);
-        char s[3];
-        for (unsigned char i : hash) {
-            sprintf(s, "%02x", i);
-            hashStr += s;
+        try {
+            file.open(p);
+            char buf[sizeBuf];
+            SHA256_CTX ctx;
+            unsigned char hash[32];
+            std::string hashStr;
+            SHA256Init(&ctx);
+            do {
+                file.read(buf, sizeof(buf));
+                SHA256Update(&ctx, (unsigned char*) buf, sizeBuf);
+            } while (file);
+            SHA256Final(&ctx, hash);
+            char s[3];
+            for (unsigned char i : hash) {
+                sprintf(s, "%02x", i);
+                hashStr += s;
+            }
+            sameSHA256Files[hashStr].push_back(p);
+            file.close();
+        } catch(...) {
+            //nothing
         }
-        sameSHA256Files[hashStr].push_back(p);
-        file.close();
     }
 }
 
@@ -88,7 +100,7 @@ void duplicates::setDirectory(std::string &directory) {
     sameFiles.clear();
     std::vector<fs::path> paths;
     getListFiles(paths, directory);
-    std::map<long long, std::vector<fs::path>> sameSizeFiles;
+    std::map<unsigned long long, std::vector<fs::path>> sameSizeFiles;
     sortBySize(paths, sameSizeFiles);
     for (const auto &groupSize : sameSizeFiles) {
         std::map<std::tuple<unsigned int, unsigned int, unsigned int>, std::vector<fs::path>> sameBeginEndBytesFiles;
