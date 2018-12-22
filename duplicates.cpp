@@ -30,6 +30,9 @@ void sortByBeginEndBytes(const std::vector<fs::path> &paths, std::map<std::tuple
     for (const auto &p : paths) {
         try {
             file.open(p);
+            if (!file.is_open()) {
+                continue;
+            }
             int n = 4;
             if (size < n) {
                 n = (int) size;
