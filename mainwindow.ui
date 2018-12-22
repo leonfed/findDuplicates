@@ -65,32 +65,53 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionBrowse"/>
-   <addaction name="actionRun"/>
+   <addaction name="actionFind"/>
    <addaction name="actionDelete_file"/>
    <addaction name="actionOpen_directory"/>
   </widget>
   <action name="actionBrowse">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icon/icon/Browse.png</normaloff>:/icon/icon/Browse.png</iconset>
+   </property>
    <property name="text">
     <string>Browse</string>
    </property>
   </action>
-  <action name="actionRun">
+  <action name="actionFind">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icon/icon/findFiles.png</normaloff>:/icon/icon/findFiles.png</iconset>
+   </property>
    <property name="text">
-    <string>Run</string>
+    <string>Find</string>
+   </property>
+   <property name="toolTip">
+    <string>Find</string>
    </property>
   </action>
   <action name="actionDelete_file">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icon/icon/deleteFile.png</normaloff>:/icon/icon/deleteFile.png</iconset>
+   </property>
    <property name="text">
     <string>Delete file</string>
    </property>
   </action>
   <action name="actionOpen_directory">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icon/icon/openDirectory.png</normaloff>:/icon/icon/openDirectory.png</iconset>
+   </property>
    <property name="text">
     <string>Open directory</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

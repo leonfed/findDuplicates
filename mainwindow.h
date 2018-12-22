@@ -27,7 +27,7 @@ private slots:
 
     void on_actionBrowse_triggered();
 
-    void on_actionRun_triggered();
+    void on_actionFind_triggered();
 
     void on_listFiles_itemPressed(QListWidgetItem *item);
 

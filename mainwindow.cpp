@@ -35,6 +35,7 @@ void MainWindow::on_actionBrowse_triggered() {
        ui->listDuplicates->clear();
     } catch (...) {
         ui->directory->setText("Directory isn't selected");
+        ui->directory->setStyleSheet("color: rgb(173, 7, 40)");
     }
 }
 
@@ -61,7 +62,7 @@ void MainWindow::fillListDuplicates(size_t index) {
     }
 }
 
-void MainWindow::on_actionRun_triggered() {
+void MainWindow::on_actionFind_triggered() {
     ui->error->setText("");
     std::get<0>(indexUp) = false;
     std::get<0>(indexDown) = false;
